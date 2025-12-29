@@ -21,10 +21,9 @@ export type Props = {
 }
 
 export enum PostPinnedOrFlagged {
-    Flagged,
-    Pinned,
-    PinnedAndFlagged,
-    Neither,
+    Flagged = 'flagged',
+    Pinned = 'pinned',
+    PinnedAndFlagged = 'pinnedAndFlagged',
 }
 
 enum MessageInfoKey {
