@@ -95,7 +95,10 @@ export function submitPost(
             return {error: hookResult.error};
         }
 
-        post = hookResult.data!;
+        if (!hookResult.data) {
+            return {error: new Error('messageWillBePosted hook returned no data')};
+        }
+        post = hookResult.data;
 
         if (schedulingInfo) {
             const scheduledPost = scheduledPostFromPost(post, schedulingInfo);
@@ -140,18 +143,22 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
         let {message} = draft;
 
         const hookResult = await dispatch(runSlashCommandWillBePostedHooks(message, args));
+
+
         if (hookResult.error) {
             return {error: hookResult.error};
-        } else if (!hookResult.data!.message && !hookResult.data!.args) {
-            // do nothing with an empty return from a hook
-            // this is allowed by the registerSlashCommandWillBePostedHook API in case
-            // a plugin intercepts and handles the command on the client side
-            // but doesn't require it to be sent to the server. (e.g., /call start).
+        }
+
+        if (!hookResult.data) {
             return {};
         }
 
-        message = hookResult.data!.message;
-        args = hookResult.data!.args;
+        if (!hookResult.data.message && !hookResult.data.args) {
+            return {};
+        }
+
+        message = hookResult.data.message ?? message;
+        args = hookResult.data.args ?? args;
 
         const {error, data} = await dispatch(executeCommand(message, args));
 
@@ -159,10 +166,14 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
             if (error.sendMessage) {
                 return dispatch(submitPost(channelId, rootId, draft));
             }
-            throw (error);
+            throw error;
         }
 
-        return {data: data!};
+        if (!data) {
+            return {error: new Error('executeCommand returned no data')};
+        }
+
+        return {data};
     };
 }
 
