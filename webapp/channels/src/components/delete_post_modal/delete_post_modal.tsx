@@ -2,17 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage, useIntl} from 'react-intl';
-import {matchPath} from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { matchPath } from 'react-router-dom';
 
-import type {Post} from '@mattermost/types/posts';
+import type { Post } from '@mattermost/types/posts';
 
-import type {ActionResult} from 'mattermost-redux/types/actions';
+import type { ActionResult } from 'mattermost-redux/types/actions';
 
 import SectionNotice from 'components/section_notice';
 
-import {getHistory} from 'utils/browser_history';
+import { getHistory } from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
 
 const urlFormatForDMGMPermalink = '/:teamName/messages/:username/:postid';
@@ -91,12 +91,9 @@ export default class DeletePostModal extends React.PureComponent<Props, State> {
         this.setState({show: false});
 
         if (!UserAgent.isMobile()) {
-            let element;
-            if (this.props.isRHS) {
-                element = document.getElementById('reply_textbox');
-            } else {
-                element = document.getElementById('post_textbox');
-            }
+            const element = this.props.isRHS ? 
+                document.querySelector<HTMLElement>('#reply_textbox') : 
+                document.querySelector<HTMLElement>('#post_textbox');
             if (element) {
                 element.focus();
             }

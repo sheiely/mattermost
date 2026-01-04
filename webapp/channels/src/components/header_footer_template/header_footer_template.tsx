@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
-import {useIntl} from 'react-intl';
-import {useSelector} from 'react-redux';
+import React, { useEffect } from 'react';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import { getConfig } from 'mattermost-redux/selectors/entities/general';
 
 import ExternalLink from 'components/external_link';
 
@@ -20,14 +20,14 @@ const HeaderFooterNotLoggedIn = (props: Props) => {
 
     useEffect(() => {
         document.body.classList.add('sticky');
-        const rootElement: HTMLElement | null = document.getElementById('root');
+        const rootElement = document.querySelector<HTMLElement>('#root');
         if (rootElement) {
             rootElement.classList.add('container-fluid');
         }
 
         return () => {
             document.body.classList.remove('sticky');
-            const rootElement: HTMLElement | null = document.getElementById('root');
+            const rootElement = document.querySelector<HTMLElement>('#root');
             if (rootElement) {
                 rootElement.classList.remove('container-fluid');
             }

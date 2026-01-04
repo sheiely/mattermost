@@ -2,33 +2,33 @@
 // See LICENSE.txt for license information.
 
 import isEmpty from 'lodash/isEmpty';
-import React, {memo, useCallback, useEffect} from 'react';
-import type {PropsWithChildren} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import type { PropsWithChildren } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {PlaylistCheckIcon} from '@mattermost/compass-icons/components';
-import type {UserThread} from '@mattermost/types/threads';
+import { PlaylistCheckIcon } from '@mattermost/compass-icons/components';
+import type { UserThread } from '@mattermost/types/threads';
 
-import {getThreadsForCurrentTeam, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
-import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
+import { getThreadsForCurrentTeam, markAllThreadsInTeamRead } from 'mattermost-redux/actions/threads';
+import { getThreadCountsInCurrentTeam } from 'mattermost-redux/selectors/entities/threads';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import { closeModal, openModal } from 'actions/views/modals';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import Header from 'components/widgets/header';
 import WithTooltip from 'components/with_tooltip';
 
-import {A11yClassNames, Constants, ModalIdentifiers} from 'utils/constants';
+import { A11yClassNames, Constants, ModalIdentifiers } from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
-import {a11yFocus, mod} from 'utils/utils';
+import { a11yFocus, mod } from 'utils/utils';
 
 import VirtualizedThreadList from './virtualized_thread_list';
 
 import Button from '../../common/button';
-import {useThreadRouting} from '../../hooks';
+import { useThreadRouting } from '../../hooks';
+import type { MarkAllThreadsAsReadModalProps } from '../mark_all_threads_as_read_modal';
 import MarkAllThreadsAsReadModal from '../mark_all_threads_as_read_modal';
-import type {MarkAllThreadsAsReadModalProps} from '../mark_all_threads_as_read_modal';
 
 import './thread_list.scss';
 
@@ -81,8 +81,8 @@ const ThreadList = ({
         }
 
         // Don't switch threads if a modal or popup is open, since the focus is inside the modal/popup.
-        const noModalsAreOpen = document.getElementsByClassName(A11yClassNames.MODAL).length === 0;
-        const noPopupsDropdownsAreOpen = document.getElementsByClassName(A11yClassNames.POPUP).length === 0;
+        const noModalsAreOpen = document.querySelectorAll(`.${A11yClassNames.MODAL}`).length === 0;
+        const noPopupsDropdownsAreOpen = document.querySelectorAll(`.${A11yClassNames.POPUP}`).length === 0;
         if (!noModalsAreOpen || !noPopupsDropdownsAreOpen) {
             return;
         }

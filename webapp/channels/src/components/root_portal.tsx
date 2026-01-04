@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 interface Props {
@@ -9,24 +9,20 @@ interface Props {
 }
 
 const RootPortal = ({children}: Props) => {
-    const el = useRef<HTMLDivElement | null>(null);
-
-    if (!el.current) {
-        el.current = document.createElement('div');
-    }
+    const el = useRef<HTMLDivElement>(document.createElement('div'));
 
     useEffect(() => {
-        const rootPortal = document.getElementById('root-portal');
+        const rootPortal = document.querySelector<HTMLElement>('#root-portal');
 
         if (rootPortal) {
-            rootPortal.appendChild(el.current as HTMLDivElement);
+            rootPortal.appendChild(el.current);
         }
 
         return () => {
-            const rootPortal = document.getElementById('root-portal');
+            const rootPortal = document.querySelector<HTMLElement>('#root-portal');
 
             if (rootPortal) {
-                rootPortal.removeChild(el.current as HTMLDivElement);
+                rootPortal.removeChild(el.current);
             }
         };
     }, []);

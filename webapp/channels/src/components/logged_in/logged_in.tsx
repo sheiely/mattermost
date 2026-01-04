@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-import type {UserProfile} from '@mattermost/types/users';
+import type { UserProfile } from '@mattermost/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
@@ -15,10 +15,10 @@ import LoadingScreen from 'components/loading_screen';
 import WebSocketClient from 'client/web_websocket_client';
 import Constants from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
-import {isKeyPressed} from 'utils/keyboard';
-import {getBrowserTimezone} from 'utils/timezone';
-import {isAndroid, isIos} from 'utils/user_agent';
-import {doesCookieContainsMMUserId} from 'utils/utils';
+import { isKeyPressed } from 'utils/keyboard';
+import { getBrowserTimezone } from 'utils/timezone';
+import { isAndroid, isIos } from 'utils/user_agent';
+import { doesCookieContainsMMUserId } from 'utils/utils';
 
 declare global {
     interface Window {
@@ -54,7 +54,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
 
-        const root = document.getElementById('root');
+        const root = document.querySelector<HTMLElement>('#root');
         if (root) {
             root.className += ' channel-view';
         }
@@ -101,7 +101,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
         }
 
         if (!this.props.currentUser) {
-            const rootEl = document.getElementById('root');
+            const rootEl = document.querySelector<HTMLElement>('#root');
             if (rootEl) {
                 rootEl.setAttribute('class', '');
             }

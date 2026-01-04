@@ -2,34 +2,34 @@
 // See LICENSE.txt for license information.
 
 import iNoBounce from 'inobounce';
-import React, {lazy, memo, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {Route, Switch, useHistory, useParams} from 'react-router-dom';
+import React, { lazy, memo, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 
-import type {ServerError} from '@mattermost/types/errors';
-import type {Team} from '@mattermost/types/teams';
+import type { ServerError } from '@mattermost/types/errors';
+import type { Team } from '@mattermost/types/teams';
 
-import {getTeamContentFlaggingStatus} from 'mattermost-redux/actions/content_flagging';
+import { getTeamContentFlaggingStatus } from 'mattermost-redux/actions/content_flagging';
 import {
     contentFlaggingFeatureEnabled,
 } from 'mattermost-redux/selectors/entities/content_flagging';
-import type {ActionResult} from 'mattermost-redux/types/actions';
+import type { ActionResult } from 'mattermost-redux/types/actions';
 
-import {reconnect} from 'actions/websocket_actions.jsx';
+import { reconnect } from 'actions/websocket_actions.jsx';
 import LocalStorageStore from 'stores/local_storage_store';
 
-import {makeAsyncComponent, makeAsyncPluggableComponent} from 'components/async_load';
+import { makeAsyncComponent, makeAsyncPluggableComponent } from 'components/async_load';
 import ChannelController from 'components/channel_layout/channel_controller';
 import useTelemetryIdentitySync from 'components/common/hooks/useTelemetryIdentifySync';
 import InitialLoadingScreen from 'components/initial_loading_screen';
 
 import Constants from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
-import {cmdOrCtrlPressed, isKeyPressed} from 'utils/keyboard';
-import {TEAM_NAME_PATH_PATTERN} from 'utils/path';
-import {isIosSafari} from 'utils/user_agent';
+import { cmdOrCtrlPressed, isKeyPressed } from 'utils/keyboard';
+import { TEAM_NAME_PATH_PATTERN } from 'utils/path';
+import { isIosSafari } from 'utils/user_agent';
 
-import type {OwnProps, PropsFromRedux} from './index';
+import type { OwnProps, PropsFromRedux } from './index';
 
 const BackstageController = makeAsyncComponent('BackstageController', lazy(() => import('components/backstage')));
 const Pluggable = makeAsyncPluggableComponent();
@@ -120,7 +120,7 @@ function TeamController(props: Props) {
                 if (replyTextbox) {
                     replyTextbox.focus();
                 } else {
-                    const postTextbox = document.getElementById('post_textbox');
+                    const postTextbox = document.querySelector<HTMLElement>('#post_textbox');
                     if (postTextbox) {
                         postTextbox.focus();
                     }

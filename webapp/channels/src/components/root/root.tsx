@@ -3,46 +3,46 @@
 
 import classNames from 'classnames';
 import deepEqual from 'fast-deep-equal';
-import React, {lazy} from 'react';
-import {Route, Switch, Redirect} from 'react-router-dom';
-import type {RouteComponentProps} from 'react-router-dom';
+import React, { lazy } from 'react';
+import type { RouteComponentProps } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
-import {setUrl} from 'mattermost-redux/actions/general';
-import {Client4} from 'mattermost-redux/client';
+import { setSystemEmojis } from 'mattermost-redux/actions/emojis';
+import { setUrl } from 'mattermost-redux/actions/general';
+import { Client4 } from 'mattermost-redux/client';
 
-import {temporarilySetPageLoadContext} from 'actions/telemetry_actions.jsx';
+import { temporarilySetPageLoadContext } from 'actions/telemetry_actions.jsx';
 import BrowserStore from 'stores/browser_store';
 
-import {makeAsyncComponent, makeAsyncPluggableComponent} from 'components/async_load';
+import { makeAsyncComponent, makeAsyncPluggableComponent } from 'components/async_load';
 import GlobalHeader from 'components/global_header/global_header';
-import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
+import { HFRoute } from 'components/header_footer_route/header_footer_route';
+import { HFTRoute, LoggedInHFTRoute } from 'components/header_footer_template_route';
 import InitialLoadingScreen from 'components/initial_loading_screen';
 import LoggedIn from 'components/logged_in';
 import LoggedInRoute from 'components/logged_in_route';
-import {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
-import {Animations} from 'components/preparing_workspace/steps';
+import { LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX } from 'components/preparing_workspace/launching_workspace';
+import { Animations } from 'components/preparing_workspace/steps';
 import Readout from 'components/readout/readout';
 
 import webSocketClient from 'client/web_websocket_client';
-import {initializePlugins} from 'plugins';
+import { initializePlugins } from 'plugins';
 import 'utils/a11y_controller_instance';
-import {expirationScheduler} from 'utils/burn_on_read_expiration_scheduler';
-import {PageLoadContext, SCHEDULED_POST_URL_SUFFIX} from 'utils/constants';
+import { expirationScheduler } from 'utils/burn_on_read_expiration_scheduler';
+import { PageLoadContext, SCHEDULED_POST_URL_SUFFIX } from 'utils/constants';
 import DesktopApp from 'utils/desktop_api';
-import {EmojiIndicesByAlias} from 'utils/emoji';
-import {TEAM_NAME_PATH_PATTERN} from 'utils/path';
-import {getSiteURL} from 'utils/url';
-import {isAndroidWeb, isChromebook, isDesktopApp, isIosWeb} from 'utils/user_agent';
-import {applyTheme, isTextDroppableEvent} from 'utils/utils';
+import { EmojiIndicesByAlias } from 'utils/emoji';
+import { TEAM_NAME_PATH_PATTERN } from 'utils/path';
+import { getSiteURL } from 'utils/url';
+import { isAndroidWeb, isChromebook, isDesktopApp, isIosWeb } from 'utils/user_agent';
+import { applyTheme, isTextDroppableEvent } from 'utils/utils';
 
 import LuxonController from './luxon_controller';
 import PerformanceReporterController from './performance_reporter_controller';
 import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
 
-import type {PropsFromRedux} from './index';
+import type { PropsFromRedux } from './index';
 
 import 'plugins/export';
 
@@ -305,7 +305,7 @@ export default class Root extends React.PureComponent<Props, State> {
     };
 
     setRootMeta = () => {
-        const root = document.getElementById('root')!;
+        const root = document.querySelector<HTMLElement>('#root')!;
 
         for (const [className, enabled] of Object.entries({
             'app-bar-enabled': this.props.shouldShowAppBar,

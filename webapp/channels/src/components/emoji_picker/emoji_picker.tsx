@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import throttle from 'lodash/throttle';
-import React, {useRef, useState, useEffect, useCallback, memo, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
-import type {FixedSizeList} from 'react-window';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import type { FixedSizeList } from 'react-window';
 import type InfiniteLoader from 'react-window-infinite-loader';
 
-import type {Emoji, EmojiCategory} from '@mattermost/types/emojis';
+import type { Emoji, EmojiCategory } from '@mattermost/types/emojis';
 
-import {getEmojiName} from 'mattermost-redux/utils/emoji_utils';
+import { getEmojiName } from 'mattermost-redux/utils/emoji_utils';
 
 import EmojiPickerCategories from 'components/emoji_picker/components/emoji_picker_categories';
 import EmojiPickerCurrentResults from 'components/emoji_picker/components/emoji_picker_current_results';
@@ -19,22 +19,22 @@ import EmojiPickerSearch from 'components/emoji_picker/components/emoji_picker_s
 import EmojiPickerSkin from 'components/emoji_picker/components/emoji_picker_skin';
 import {
     CATEGORIES,
-    RECENT_EMOJI_CATEGORY,
-    RECENT,
-    SMILEY_EMOTION,
-    SEARCH_RESULTS,
-    EMOJI_PER_ROW,
+    CATEGORIES_CONTAINER_HEIGHT,
     CUSTOM_EMOJI_SEARCH_THROTTLE_TIME_MS,
     EMOJI_CONTAINER_HEIGHT,
-    CATEGORIES_CONTAINER_HEIGHT,
+    EMOJI_PER_ROW,
+    RECENT,
+    RECENT_EMOJI_CATEGORY,
+    SEARCH_RESULTS,
+    SMILEY_EMOTION,
 } from 'components/emoji_picker/constants';
-import {NavigationDirection} from 'components/emoji_picker/types';
-import type {CategoryOrEmojiRow, Categories, EmojiCursor, EmojiPosition, EmojiRow} from 'components/emoji_picker/types';
-import {createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis} from 'components/emoji_picker/utils';
+import type { Categories, CategoryOrEmojiRow, EmojiCursor, EmojiPosition, EmojiRow } from 'components/emoji_picker/types';
+import { NavigationDirection } from 'components/emoji_picker/types';
+import { createCategoryAndEmojiRows, getCursorProperties, getUpdatedCategoriesAndAllEmojis } from 'components/emoji_picker/utils';
 import NoResultsIndicator from 'components/no_results_indicator';
-import {NoResultsVariant} from 'components/no_results_indicator/types';
+import { NoResultsVariant } from 'components/no_results_indicator/types';
 
-import type {PropsFromRedux} from './index';
+import type { PropsFromRedux } from './index';
 
 export interface Props extends PropsFromRedux {
     filter: string;
@@ -102,7 +102,7 @@ const EmojiPicker = ({
             searchInputRef.current?.focus();
         });
 
-        const rootComponent = document.getElementById('root');
+        const rootComponent = document.querySelector('#root');
         rootComponent?.classList.add('emoji-picker--active');
 
         return () => {

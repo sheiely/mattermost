@@ -2,33 +2,33 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {EmoticonPlusOutlineIcon, InformationOutlineIcon} from '@mattermost/compass-icons/components';
-import type {Emoji} from '@mattermost/types/emojis';
-import type {Post} from '@mattermost/types/posts';
-import type {ScheduledPost} from '@mattermost/types/schedule_post';
-import {scheduledPostToPost} from '@mattermost/types/schedule_post';
+import { EmoticonPlusOutlineIcon, InformationOutlineIcon } from '@mattermost/compass-icons/components';
+import type { Emoji } from '@mattermost/types/emojis';
+import type { Post } from '@mattermost/types/posts';
+import type { ScheduledPost } from '@mattermost/types/schedule_post';
+import { scheduledPostToPost } from '@mattermost/types/schedule_post';
 
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import type {ActionResult} from 'mattermost-redux/types/actions';
-import {getEmojiName} from 'mattermost-redux/utils/emoji_utils';
+import { getChannel } from 'mattermost-redux/selectors/entities/channels';
+import type { ActionResult } from 'mattermost-redux/types/actions';
+import { getEmojiName } from 'mattermost-redux/utils/emoji_utils';
 
-import {openModal} from 'actions/views/modals';
-import {getConnectionId} from 'selectors/general';
+import { openModal } from 'actions/views/modals';
+import { getConnectionId } from 'selectors/general';
 
 import DeletePostModal from 'components/delete_post_modal';
 import DeleteScheduledPostModal from 'components/drafts/draft_actions/schedule_post_actions/delete_scheduled_post_modal';
 import useEmojiPicker from 'components/emoji_picker/use_emoji_picker';
+import type { TextboxClass, TextboxElement } from 'components/textbox';
 import Textbox from 'components/textbox';
-import type {TextboxClass, TextboxElement} from 'components/textbox';
 
-import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
+import { AppEvents, Constants, ModalIdentifiers, StoragePrefixes } from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
-import type {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
-import {applyMarkdown} from 'utils/markdown/apply_markdown';
+import type { ApplyMarkdownOptions } from 'utils/markdown/apply_markdown';
+import { applyMarkdown } from 'utils/markdown/apply_markdown';
 import {
     formatGithubCodePaste,
     formatMarkdownMessage,
@@ -36,12 +36,12 @@ import {
     hasHtmlLink,
     isGitHubCodeBlock,
 } from 'utils/paste';
-import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
-import {allAtMentions} from 'utils/text_formatting';
+import { postMessageOnKeyPress, splitMessageBasedOnCaretPosition } from 'utils/post_utils';
+import { allAtMentions } from 'utils/text_formatting';
 import * as Utils from 'utils/utils';
 
-import type {GlobalState} from 'types/store';
-import type {PostDraft} from 'types/store/draft';
+import type { GlobalState } from 'types/store';
+import type { PostDraft } from 'types/store/draft';
 
 import EditPostFooter from './edit_post_footer';
 
@@ -244,7 +244,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
 
     const handleRefocusAndExit = (refocusId: string|null) => {
         if (refocusId) {
-            const element = document.getElementById(refocusId);
+            const element = document.querySelector<HTMLElement>(`#${refocusId}`);
             element?.focus();
         }
 
