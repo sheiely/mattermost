@@ -22,11 +22,11 @@ const BOTTOM_MESSAGE_TIMEOUT = 10000;
 const DESKTOP_AUTH_PREFIX = 'desktop_auth_client_token';
 
 enum DesktopAuthStatus {
-    None,
-    WaitingForBrowser,
-    LoggedIn,
-    Authenticating,
-    Error,
+    None = 'None',
+    WaitingForBrowser = 'WaitingForBrowser',
+    LoggedIn = 'LoggedIn',
+    Authenticating = 'Authenticating',
+    Error = 'Error',
 }
 
 type Props = {

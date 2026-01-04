@@ -151,12 +151,16 @@ export function sendDesktopNotification(post: Post, msgProps: NewPostMessageProp
         // and may cause crashes down the line if not
         // properly typed.
         const hookResult = await dispatch(runDesktopNotificationHooks(post, msgProps, channel as any, teamId, args));
-        if (hookResult.error) {
+        if (hookResult.error) { 
             dispatch(logError(hookResult.error as ServerError));
             return {data: {status: 'error', reason: 'desktop_notification_hook', data: String(hookResult.error)}};
         }
 
-        const argsAfterHooks = hookResult.data!;
+        if (!hookResult.data) {
+            return {data: {status: 'error', reason: 'desktop_notification_hook', data: 'no hook data'}};
+        }
+
+        const argsAfterHooks = hookResult.data;
 
         if (!argsAfterHooks.notify && !forceNotification) {
             return {data: {status: 'not_sent', reason: 'desktop_notification_hook', data: String(hookResult)}};

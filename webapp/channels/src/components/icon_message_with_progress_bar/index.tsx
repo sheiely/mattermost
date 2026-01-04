@@ -8,8 +8,8 @@ import './icon_message_with_progress_bar.scss';
 
 export const enum ProcessState {
     PROCESSING = 0,
-    SUCCESS,
-    FAILED,
+    SUCCESS = 1,
+    FAILED = 2,
 }
 
 type PageCopy = {

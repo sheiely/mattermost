@@ -165,7 +165,20 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
-        const callResp = res.data!;
+        if (!res.data) {
+            const errorMessage = intl.formatMessage({
+                id: 'apps.error.unknown',
+                defaultMessage: 'Unknown error occurred.',
+            });
+            this.props.actions.postEphemeralCallResponseForPost(
+                {type: AppCallResponseTypes.ERROR} as any,
+                errorMessage,
+                post,
+            );
+            return;
+        }
+
+        const callResp = res.data;
         switch (callResp.type) {
         case AppCallResponseTypes.OK:
             if (callResp.text) {

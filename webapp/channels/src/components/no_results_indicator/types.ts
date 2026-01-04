@@ -16,6 +16,6 @@ export enum NoResultsVariant {
 }
 
 export enum NoResultsLayout {
-    Vertical,
-    Horizontal,
+    Vertical = "Vertical",
+    Horizontal = "Horizontal",
 }

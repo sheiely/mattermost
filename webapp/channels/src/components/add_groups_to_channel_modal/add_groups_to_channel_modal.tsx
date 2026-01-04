@@ -252,13 +252,17 @@ export class AddGroupsToChannelModal extends React.PureComponent<Props, State> {
             addError = (<div className='has-error col-sm-12'><label className='control-label font-weight--normal'>{this.state.addError}</label></div>);
         }
         let groupsToShow = this.props.groups;
+
         if (this.props.excludeGroups) {
-            const hasGroup = (og: Group) => !this.props.excludeGroups!.find((g) => g.id === og.id);
+            const excludeGroups = this.props.excludeGroups;
+            const hasGroup = (og: Group) => !excludeGroups.find((g) => g.id === og.id);
             groupsToShow = groupsToShow.filter(hasGroup);
         }
+
         if (this.props.includeGroups) {
-            const hasGroup = (og: Group) => this.props.includeGroups!.find((g) => g.id === og.id);
-            groupsToShow = [...groupsToShow, ...this.props.includeGroups.filter(hasGroup)];
+            const includeGroups = this.props.includeGroups;
+            const hasGroup = (og: Group) => includeGroups.find((g) => g.id === og.id);
+            groupsToShow = [...groupsToShow, ...includeGroups.filter(hasGroup)];
         }
         const groupsToShowValues = groupsToShow.map((group) => {
             return {label: group.display_name, value: group.id, ...group};

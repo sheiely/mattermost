@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 
 export enum Load {
-    DONE,
-    LOADING,
-    FAILED,
+    DONE = 'DONE',
+    LOADING = 'LOADING',
+    FAILED = 'FAILED',
 }
 
 export const USER_GROUP_POPOVER_OPENING_DELAY = 300;
