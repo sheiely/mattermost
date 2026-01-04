@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {defineMessage, FormattedMessage} from 'react-intl';
+import { defineMessage, FormattedMessage } from 'react-intl';
 
-import type {GroupSearchOpts, MixedUnlinkedGroupRedux} from '@mattermost/types/groups';
+import type { GroupSearchOpts, MixedUnlinkedGroupRedux } from '@mattermost/types/groups';
 
-import type {ActionResult} from 'mattermost-redux/types/actions';
+import type { ActionResult } from 'mattermost-redux/types/actions';
 
 import GroupRow from 'components/admin_console/group_settings/group_row';
 import LocalizedPlaceholderInput from 'components/localized_placeholder_input';
@@ -15,7 +15,7 @@ import NextIcon from 'components/widgets/icons/fa_next_icon';
 import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/search_icon';
 
-import {Constants} from 'utils/constants';
+import { Constants } from 'utils/constants';
 
 const LDAP_GROUPS_PAGE_SIZE = 200;
 

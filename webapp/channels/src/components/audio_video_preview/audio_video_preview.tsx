@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import type {FileInfo} from '@mattermost/types/files';
+import type { FileInfo } from '@mattermost/types/files';
 
 import FileInfoPreview from 'components/file_info_preview';
 
@@ -50,11 +50,6 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
     }
 
     handleFileInfoChanged = () => {
-        let video = this.videoRef.current;
-        if (!video) {
-            video = document.createElement('video');
-        }
-
         this.setState({
             canPlay: true,
         });

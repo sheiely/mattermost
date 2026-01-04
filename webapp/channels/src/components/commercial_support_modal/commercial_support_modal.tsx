@@ -3,14 +3,14 @@
 
 import moment from 'moment';
 import React from 'react';
-import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
-import type {SupportPacketContent} from '@mattermost/types/admin';
-import type {UserProfile} from '@mattermost/types/users';
+import type { SupportPacketContent } from '@mattermost/types/admin';
+import type { UserProfile } from '@mattermost/types/users';
 
-import {Client4} from 'mattermost-redux/client';
+import { Client4 } from 'mattermost-redux/client';
 
 import AlertBanner from 'components/alert_banner';
 import ExternalLink from 'components/external_link';
@@ -43,6 +43,8 @@ type State = {
 };
 
 export default class CommercialSupportModal extends React.PureComponent<Props, State> {
+    private downloadLinkRef = React.createRef<HTMLAnchorElement>();
+
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -123,12 +125,13 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
         this.setState({loading: false});
 
         const href = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', this.extractFilename(res.headers.get('content-disposition')));
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const link = this.downloadLinkRef.current;
+        if (link) {
+            link.href = href;
+            link.download = this.extractFilename(res.headers.get('content-disposition'));
+            link.click();
+            window.URL.revokeObjectURL(href);
+        }
     };
 
     render() {
@@ -240,6 +243,10 @@ export default class CommercialSupportModal extends React.PureComponent<Props, S
                             </a>
                         </div>
                     </div>
+                    <a
+                        ref={this.downloadLinkRef}
+                        style={{display: 'none'}}
+                    />
                 </Modal.Body>
             </Modal>
         );

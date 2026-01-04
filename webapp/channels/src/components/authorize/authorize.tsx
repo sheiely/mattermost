@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import type { ReactNode } from 'react';
 import React from 'react';
-import type {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 
-import type {OAuthApp} from '@mattermost/types/integrations';
+import type { OAuthApp } from '@mattermost/types/integrations';
 
-import type {ActionResult} from 'mattermost-redux/types/actions';
+import type { ActionResult } from 'mattermost-redux/types/actions';
 
 import FormError from 'components/form_error';
 
 import icon50 from 'images/icon50x50.png';
-import {getHistory} from 'utils/browser_history';
+import { getHistory } from 'utils/browser_history';
 
 export type Params = {
     responseType: string | null;
@@ -45,12 +45,13 @@ export default class Authorize extends React.PureComponent<Props, State> {
         this.state = {};
     }
 
-    public componentDidMount(): void {
-        // if we get to this point remove the antiClickjack blocker
+    private removeAntiClickjackBlocker(): void {
         const blocker = document.getElementById('antiClickjack');
-        if (blocker && blocker.parentNode) {
-            blocker.parentNode.removeChild(blocker);
-        }
+        blocker?.remove();
+    }
+
+    public componentDidMount(): void {
+        this.removeAntiClickjackBlocker();
         const clientId = (new URLSearchParams(this.props.location.search)).get('client_id');
         if (clientId && !((/^[a-z0-9]+$/).test(clientId))) {
             return;

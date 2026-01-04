@@ -2,23 +2,23 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useMemo, useState, useEffect, useCallback, useRef} from 'react';
-import {useIntl} from 'react-intl';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
 
 import {
     CheckIcon,
-    MenuVariantIcon,
     ChevronDownCircleOutlineIcon,
     EmailOutlineIcon,
     FormatListBulletedIcon,
-    LinkVariantIcon,
-    PoundIcon,
     InformationOutlineIcon,
-    SyncIcon,
+    LinkVariantIcon,
+    MenuVariantIcon,
+    PoundIcon,
     ShieldAlertOutlineIcon,
+    SyncIcon,
 } from '@mattermost/compass-icons/components';
 import type IconProps from '@mattermost/compass-icons/components/props';
-import type {UserPropertyField} from '@mattermost/types/properties';
+import type { UserPropertyField } from '@mattermost/types/properties';
 
 import * as Menu from 'components/menu';
 import WithTooltip from 'components/with_tooltip';
@@ -70,6 +70,7 @@ const AttributeSelectorMenu = ({currentAttribute, availableAttributes, disabled,
     const {formatMessage} = useIntl();
     const [filter, setFilter] = useState('');
     const prevAutoOpen = useRef(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const onFilterChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setFilter(e.target.value);
@@ -92,19 +93,19 @@ const AttributeSelectorMenu = ({currentAttribute, availableAttributes, disabled,
 
     useEffect(() => {
         if (autoOpen && !prevAutoOpen.current) {
-            const buttonElement = document.getElementById(buttonId);
-            buttonElement?.click();
+            buttonRef.current?.click();
             if (onMenuOpened) {
                 onMenuOpened();
             }
         }
         prevAutoOpen.current = autoOpen;
-    }, [autoOpen, buttonId, onMenuOpened]);
+    }, [autoOpen, onMenuOpened]);
 
     return (
         <Menu.Container
             menuButton={{
                 id: buttonId,
+                ref: buttonRef,
                 class: classNames('btn btn-transparent field-selector-menu-button', {
                     disabled,
                 }),

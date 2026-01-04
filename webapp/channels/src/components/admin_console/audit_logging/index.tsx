@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {ComponentType} from 'react';
+import type { ComponentType } from 'react';
 import React from 'react';
-import type {IntlShape} from 'react-intl';
-import {useIntl} from 'react-intl';
+import type { IntlShape } from 'react-intl';
+import { useIntl } from 'react-intl';
 
-import {removeAuditCertificate, uploadAuditCertificate} from 'actions/admin_actions';
+import type { AdminConfig, ClientLicense } from '@mattermost/types/config';
+import type { ServerError } from '@mattermost/types/errors';
+
+import { removeAuditCertificate, uploadAuditCertificate } from 'actions/admin_actions';
 
 import useGetCloudInstallationStatus from 'components/common/hooks/useGetCloudInstallationStatus';
 import WithTooltip from 'components/with_tooltip';
@@ -14,12 +17,14 @@ import WithTooltip from 'components/with_tooltip';
 import FileUploadSetting from '../file_upload_setting';
 import RemoveFileSetting from '../remove_file_setting';
 
+type ErrorCallback = ServerError & {id?: string};
+
 type Props = {
     id?: string;
-    config: any;
-    license: any;
+    config: Partial<AdminConfig>;
+    license: ClientLicense;
     intl: IntlShape;
-    value: any;
+    value: string;
     onChange: (id: string, value: string) => void;
     disabled: boolean;
     setByEnv: boolean;
@@ -59,11 +64,11 @@ const AuditLoggingCertificateUploadSetting: React.FC<Props> = (props: Props) => 
         onChange(id, value);
     };
 
-    const removeAction = (successCallback: () => void, errorCallback: (error: any) => void) => {
+    const removeAction = (successCallback: () => void, errorCallback: (error: ErrorCallback) => void) => {
         removeAuditCertificate(successCallback, errorCallback);
     };
 
-    const uploadAction = (file: File, successCallback: (filename: string) => void, errorCallback: (error: any) => void) => {
+    const uploadAction = (file: File, successCallback: (filename: string) => void, errorCallback: (error: ErrorCallback) => void) => {
         uploadAuditCertificate(file, successCallback, errorCallback);
     };
 
@@ -94,7 +99,7 @@ const AuditLoggingCertificateUploadSetting: React.FC<Props> = (props: Props) => 
                 setFileError(null);
                 refetchStatus();
             };
-            const errorCallback = (error: any) => {
+            const errorCallback = (error: ErrorCallback) => {
                 callback();
                 setFileValue(null);
                 setFileError(error.message);
@@ -127,7 +132,7 @@ const AuditLoggingCertificateUploadSetting: React.FC<Props> = (props: Props) => 
                 callback();
             }
         };
-        const errorCallback = (error: any) => {
+        const errorCallback = (error: ErrorCallback) => {
             if (callback && typeof callback === 'function') {
                 callback(error.message);
             }
